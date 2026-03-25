@@ -7,7 +7,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
          # Snowflake CLI installation
-         - uses: snowflakedb/snowflake-cli-action@v1.5
+         - uses: snowflakedb/snowflake-cli-action@v2.0
 
             # Use the CLI
          - name: Execute Snowflake CLI command
