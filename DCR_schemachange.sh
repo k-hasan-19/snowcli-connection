@@ -3,14 +3,14 @@
 touch ./connections.toml
 echo [default] >> ./connections.toml
 echo authenticator = \"snowflake_jwt\" >> ./connections.toml
-echo account = \"${secrets.SNOWFLAKE_ACCOUNT}\" >> ./connections.toml
-echo user = \"${secrets.SNOWFLAKE_USER}\" >> ./connections.toml
-echo role = \"${secrets.SF_ROLE}\" >> ./connections.toml
-echo warehouse = \"${secrets.SF_WAREHOUSE}\" >> ./connections.toml
-echo database = \"${secrets.SF_DATABASE}\" >> ./connections.toml
-echo schema = \"${secrets.SF_SCHEMA}\" >> ./connections.toml
+echo account = \"${SF_ACCOUNT}\" >> ./connections.toml
+echo user = \"${SF_USERNAME}\" >> ./connections.toml
+echo role = \"${SF_ROLE}\" >> ./connections.toml
+echo warehouse = \"${SF_WAREHOUSE}\" >> ./connections.toml
+echo database = \"${SF_DATABASE}\" >> ./connections.toml
+echo schema = \"${SF_SCHEMA}\" >> ./connections.toml
 echo private_key_file = \"./rsa_key.p8\" >> ./connections.toml
-echo private_key_file_pwd = \"${secrets.PASSPHARSE}\" >> ./connections.toml 
+echo private_key_file_pwd = \"${SF_PRIVATE_KEY_PWD}\" >> ./connections.toml 
 echo "cat connections.toml"
 cat ./connections.toml
 echo "Current connections.toml"
