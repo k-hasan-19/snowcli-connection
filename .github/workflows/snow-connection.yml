@@ -8,6 +8,14 @@ jobs:
    version:
       name: "Check Snowflake CLI version"
       runs-on: ubuntu-latest
+      env:
+        SF_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+        SF_USERNAME: ${{ secrets.SNOWFLAKE_USER }}
+        SF_ROLE: ${{ secrets.SF_ROLE }}
+        SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+        SF_DATABASE: ${{ secrets.SF_DATABASE }}
+        SF_SCHEMA: ${{ secrets.SF_SCHEMA }}
+        SF_PRIVATE_KEY_PWD: ${{ secrets.PASSPHARSE }}
       steps:
          # Snowflake CLI installation
         - name: Checkout repository
