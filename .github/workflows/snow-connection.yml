@@ -10,17 +10,44 @@ jobs:
       runs-on: ubuntu-latest
       steps:
          # Snowflake CLI installation
-         - uses: snowflakedb/snowflake-cli-action@v2.0
+        - name: Checkout repository
+          uses: actions/checkout@v5
+        - name: Use Python 3.13
+          uses: actions/setup-python@v6
+          with:
+            python-version: '3.13'
+        - name: Install the Snowflake Python Connector
+          run: |
+            echo "Installing Snowflake Python Connector..."
+            pip install snowflake-connector-python
 
-            # Use the CLI
-         - name: Execute Snowflake CLI command
-           env:
-              SNOWFLAKE_AUTHENTICATOR: SNOWFLAKE_JWT
-              SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-              SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-              SNOWFLAKE_PRIVATE_KEY_RAW: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_RAW }}
-              PRIVATE_KEY_PASSPHRASE: ${{ secrets.PASSPHARSE }} # Passphrase is only necessary if private key is encrypted.
-           run: |
-              snow --help
-              snow connection test -x
-              snow sql --query "SHOW DATABASES;" --temporary-connection
+        - name: Install schemachange
+          run: |
+            echo "Installing schemachange..."
+            pip install schemachange==4.0.1
+        - name: Create RSA key file
+          run: |
+            mkdir -p ./config
+            echo "Decrypting RSA key..."
+            echo create rsa_key.p8 file
+            touch ./rsa_key.p8
+            echo "Writing private key to file..."
+            echo "${{ secrets.SNOWFLAKE_PRIVATE_KEY_RAW }}" > ./rsa_key.p8
+            chmod 600 ./rsa_key.p8 
+            cat ./rsa_key.p8
+        - name: Show current dirctory
+          run: |
+            echo "Current Directory: ${PWD}"
+            ls -la ${PWD}
+
+        - name: Show GITHUB_WORKSPACE
+          run: |
+            echo "GITHUB WORKSPACE: ${GITHUB_WORKSPACE}"
+        - name: Run Schemachange
+          run: |
+            echo "Running schemachange..."
+            schemachange --connections-file-path ./connections.toml \
+              --connection-name default \
+              --verbose \
+              --autocommit \
+              --create-change-history-table
