@@ -16,6 +16,13 @@ jobs:
           uses: actions/setup-python@v6
           with:
             python-version: '3.13'
+        - name: Create and populate connections toml
+          run: |
+            echo "Current Directory: ${PWD}"
+            echo "GITHUB WORKSPACE: ${GITHUB_WORKSPACE}"
+            chmod +x DCR_schemachange.sh
+            bash DCR_schemachange.sh
+          working-directory: .
         - name: Install the Snowflake Python Connector
           run: |
             echo "Installing Snowflake Python Connector..."
