@@ -65,4 +65,5 @@ jobs:
               --connection-name default \
               --verbose \
               --autocommit \
+              --change-history-table $SF_DATABASE.$SF_SCHEMA.SCHEMACHANGE_HISTORY \
               --create-change-history-table
